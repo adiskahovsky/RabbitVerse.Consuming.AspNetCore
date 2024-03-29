@@ -9,6 +9,8 @@ namespace RabbitVerse.Consuming.AspNetCore
         private readonly Consuming _consuming;
         private readonly ConsumingOptions _consumingOptions;
 
+        private Task _task;
+
         public ConsumingBackground(Consuming consuming, ConsumingOptions consumingOptions)
         {
             _consuming = consuming;
@@ -17,7 +19,7 @@ namespace RabbitVerse.Consuming.AspNetCore
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _ = _consuming.Start(_consumingOptions.Recreate);
+            _task = Task.Factory.StartNew(async () => await _consuming.Start(_consumingOptions.Recreate), TaskCreationOptions.LongRunning);
             return Task.CompletedTask;
         }
     }
