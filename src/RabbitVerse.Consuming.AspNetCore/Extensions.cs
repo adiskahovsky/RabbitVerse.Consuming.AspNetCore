@@ -9,7 +9,7 @@ namespace RabbitVerse.Consuming.AspNetCore
 {
     public static class Extensions
     {
-        public static IServiceCollection AddConsuming(this IServiceCollection services, string serviceName, ConnectionFactory connectionFactory, bool recreate = false)
+        public static IServiceCollection AddRabbitVerseConsuming(this IServiceCollection services, string serviceName, ConnectionFactory connectionFactory, bool recreate = false)
         {
             services.AddSingleton(sp => new Consuming(
                 serviceName,
