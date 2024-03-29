@@ -8,6 +8,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="RabbitVerse.Consuming" Version="1.0.0-alpha-7" />
+    <PackageReference Include="RabbitVerse.Consuming" Version="1.0.1" />
   </ItemGroup>
 </Project>
