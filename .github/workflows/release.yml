@@ -1,0 +1,26 @@
+name: Release to NuGet
+
+on:
+  release:
+    types: [published]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1
+    - name: Determine version from tag
+      id: extract_version
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+    - name: Build
+      run: dotnet build src/RabbitVerse.Consuming/RabbitVerse.Consuming.AspNetCore.csproj -c Release
+    - name: Pack nugets
+      run: dotnet pack src/RabbitVerse.Consuming/RabbitVerse.Consuming.AspNetCore.csproj -c Release --no-build --output .
+    - name: Push to NuGet
+      run: dotnet nuget push "*.nupkg" --api-key ${{secrets.nuget_api_key}} --source https://api.nuget.org/v3/index.json
+      env:
+        NUGET_VERSION: ${{ env.VERSION }}
